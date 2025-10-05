@@ -1,0 +1,16 @@
+docker pull
+docker run
+docker run -d image-name
+
+docker ps 
+docker ps -a
+
+docker stop <container-id>
+docker rm <container-id>
+
+docker images
+docker rmi <image-id>
+
+
+docker exec -it <container-id> /bin/bash
+
