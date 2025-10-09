@@ -1,0 +1,106 @@
+
+#run the command with busybox as small linux os with shell
+
+docker run --rm -it busybox sh
+
+#to check the hostname within opened shell type hostname it will give container id
+
+hostname
+
+#in same command you can able to ping google.com
+ping google.com
+
+#to check network address and hardware configuratio we can use below command
+#which will give you some information about eth0 taking virtualIP from docker
+ifconfig
+
+
+#docker network for available networks
+docker network ls
+
+
+#Different networking drivers
+Docker Network Drivers
+======================================================================================
+
+Driver:     bridge(default)
+Use Case:   Driver for when containers on the same host need
+            to communicate with each other, external access needs port mapping
+
+--------------------------------------------------------------------------------------
+
+Driver:     host
+Use Case:   Allowing the container to use the host's network directly(no isolation).
+
+--------------------------------------------------------------------------------------
+
+Driver:     none
+Use Case:   No network connectivity(Completely isolated container)
+
+--------------------------------------------------------------------------------------
+
+Driver:     overlay
+Use Case:   Enable multi-host networking for Swarm services. Connects multiple Docker daemons, enabling swarm services and containers   to communicate across different hosts.
+
+--------------------------------------------------------------------------------------
+
+Driver:     macvlan
+Use Case:   Assigns a real MAC address to a container(acts like physical
+            device ) Often used for legacy applications.
+
+--------------------------------------------------------------------------------------
+
+Driver:     ipvlan
+Use Case:   Provides total control over IP addresses and VLAN tagging, useful for
+            integrating with an existing physical network infrastructure.
+
+======================================================================================
+
+
+#get the list of networks
+docker network ls
+
+#Get the information about network 
+docker network inspect <network-name>
+
+#create network 
+docker network create <network-name>
+
+#run container with given network
+docker run --network my-network <container>
+
+#connect network to running container
+docker network connect my-network <container>
+
+#remove/disocnonnet network from container
+docker network disconnect my-network <container>
+
+#remvoe specific network
+docker network rm my-network
+
+
+#Practicle example
+
+#create a bridge network
+docker network bridge my-brdge
+
+#run nginx container with created network and given name
+docker run --network my-bridge --name container1 -d nginx
+
+#run alpine image(linux image) with given name need to pass sleep param as it will shut down immediatly
+docker run --network my-bridge --name container2 -d alpine sleep 360
+
+#pings from container 2 to container 1
+docker exec -it container2 ping container1
+
+#host will use existin machine IP
+docker run --network host -d nginx
+
+#run container in isolation mode
+docker run --network none -d alpine sleep 360
+
+#creating machine with own ip nad mac address
+docker network create -d macvlan \
+--subnet=192.168.1.0 \
+--gateway=192.168.1.1 \
+-p parent =eth0 my-macvlan

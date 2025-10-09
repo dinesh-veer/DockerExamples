@@ -1,0 +1,5 @@
+Docker compose is tool for defining and running multi-container application.
+It is simple YAML file.
+
+You can use either docker-compose or docker compose.
+But in latest version docker compose is followed.

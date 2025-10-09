@@ -1,12 +1,62 @@
 docker pull
 docker run
 docker run -d image-name
+#Run as app with app name with myApp
+docker run --name myApp <container-id> 
 
+#Run app on local with port 8080 while container is exposing on port 80
+docker run -p 8080:80 <image-id>
+
+#loading folder or volum(pwd = present working directory) to app 
+docker run -v ${pwd}:/app <image-id>
+docker run -v /usr/bin:/app <image-id>
+
+#-it means interactive mode using this shell it may be sh or /bin/sh
+docker run -it<image-id> sh
+
+
+
+
+
+#show me all running containers
 docker ps 
+
+#show me all containers regards of its state
 docker ps -a
 
+#see the output (stdout & stderr) from a running or stopped container.
+docker logs <container-id>
+
+#connect to running container
+docker attach <container-id>
+
+#stop the container(Graceful termination)
 docker stop <container-id>
+
+#kills the container(Immediate termination)
+docker kill <container-id>
+
+#Stop all container inner command gives of running continer 
+docker stop ${docker ps -q}
+
+#restart the container
+docker restart <continer-id>
+
+#start the container
+docker start <container-id>
+
+#removing the container
 docker rm <container-id>
+
+#for forceful removal of container
+docker rm -f <container-id>
+
+#delete the stopped continer
+docker <continer-id> prune
+
+#copy file from container path to local current directory
+docker cp <continer-id>:/path/to/file ./
+
 
 docker images
 docker rmi <image-id>
@@ -14,3 +64,6 @@ docker rmi <image-id>
 
 docker exec -it <container-id> /bin/bash
 
+
+#if you want to get all commnads regarding container then just got to coomand n use below commnads
+docker container
